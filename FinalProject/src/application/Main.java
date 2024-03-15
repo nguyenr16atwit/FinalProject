@@ -14,13 +14,11 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("Frame.fxml"));
-		
-		Scene scene = new Scene(root, 720, 480);
+		Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
 		
 		primaryStage.setTitle("Sudoku Puzzle Game");
 		
-		primaryStage.setScene(scene);
+		primaryStage.setScene(new Scene(root, 750, 500));
 		
 		primaryStage.show();
 	}

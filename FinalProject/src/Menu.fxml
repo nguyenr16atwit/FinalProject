@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane prefHeight="480.0" prefWidth="720.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+   <children>
+      <Pane layoutX="-130.0" layoutY="-194.0" prefHeight="200.0" prefWidth="200.0" />
+   </children>
+</Pane>
