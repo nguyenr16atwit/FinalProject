@@ -10,5 +10,5 @@ module FinalProject {
 	requires javafx.swing;
 	requires javafx.web;
 	
-	opens application to javafx.graphics, javafx.fxml, javafx.controls, javafx.desktop, javafx.base, javafx.media, javafx.swing, javafx.web;
+	opens application;
 }

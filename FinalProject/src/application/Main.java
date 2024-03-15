@@ -6,15 +6,12 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-/**
- * @author Raymond Nguyen
- */
 
 public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("layout.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("Frame.fxml"));
 		Scene scene = new Scene(root, 720, 480);
 		primaryStage.setTitle("Sudoku");
 		primaryStage.setScene(scene);
