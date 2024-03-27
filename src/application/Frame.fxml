@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xml>
 
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
@@ -22,3 +21,4 @@
       <Button fx:id="newgame" layoutX="594.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#newGame" prefHeight="40.0" prefWidth="80.0" text="New Game" />
     </children>
 </Pane>
+
