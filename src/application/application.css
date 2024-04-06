@@ -1,11 +1,21 @@
 .base_pane {
--fx-background-color: #EEEED8;
+-fx-background-color: #F8F8E3;
 }
 
 .button {
-    -fx-background-color: #D5D5B3;
+    -fx-background-color: #E5E5CC;
 	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.7), 8, 0, 0, 0);
 	-fx-background-radius: 17%;
+}
+
+.toggle_button{
+	-fx-background-color: #E5E5CC;
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.7), 8, 0, 0, 0);
+	-fx-background-radius: 17%;
+}
+
+.toggle_button:hover {
+	-fx-background-color: #F6F6E4;
 }
 
 .button:hover {

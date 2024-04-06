@@ -1,21 +1,26 @@
 package application;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class Controller implements Initializable {
 
-    @FXML
-    Button button_one;
-    @FXML
-    Button button_two;
+    @FXML Button button_one;
+    @FXML Button button_two;
     @FXML Button button_three;
     @FXML Button button_four;
     @FXML Button button_five;
@@ -24,37 +29,104 @@ public class Controller implements Initializable {
     @FXML Button button_eight;
     @FXML Button button_nine;
     @FXML Canvas canvas;
+    @FXML ToggleButton button_normal;
+    @FXML ToggleButton button_medium;
+    @FXML ToggleButton button_hard;
+    @FXML ToggleGroup difficultyToggleGroup;
     GameBoard gameboard;
-    int player_selected_row = -1;
-    int player_selected_col = -1;
-    Color line_color = Color.WHITE;
+    
+
+    private int player_selected_row = -1;
+    private int player_selected_col = -1;
+    private Color line_color = Color.WHITE;
+    
+    
+    
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         System.out.println("Start");
         gameboard = new GameBoard(9, 30);
         GraphicsContext context = canvas.getGraphicsContext2D();
         drawOnCanvas(context);
+        
+        difficultyToggleGroup = new ToggleGroup();
+        button_normal.setToggleGroup(difficultyToggleGroup);
+        button_medium.setToggleGroup(difficultyToggleGroup);
+        button_hard.setToggleGroup(difficultyToggleGroup);
     }
+    
+    
+    @FXML
     public void newGame() {
-        System.out.println("New Game"); 
-        gameboard.newValues();
+        System.out.println("New Game");
+
+        int numberOfClues = 0;
+
+        // Get the selected toggle from the toggle group
+        Toggle selectedToggle = difficultyToggleGroup.getSelectedToggle();
+
+        if (selectedToggle != null) {
+            if (selectedToggle == button_normal) {
+                numberOfClues = 25; // Normal difficulty
+            } else if (selectedToggle == button_medium) {
+                numberOfClues = 40; // Medium difficulty
+            } else if (selectedToggle == button_hard) {
+                numberOfClues = 55; // Hard difficulty
+            }
+        } else {
+            numberOfClues = 25;
+        }
+
+        gameboard.newValues(numberOfClues);
         player_selected_row = player_selected_col = -1;
         drawOnCanvas(canvas.getGraphicsContext2D());
     }
 
-    public void check(){
+    @FXML
+    public void check() {
         System.out.println("Check");
-        if (gameboard.check()) {
-            System.out.println("True");
-            line_color = Color.GREEN;
+        boolean isCorrect = gameboard.check();
+
+        if (isCorrect) {
+            showAlert("", "Congratulations! You solved the puzzle correctly.");
         } else {
-            System.out.println("False");
-            line_color = Color.RED;
+            showAlert("", "Your solution is not correct. Please try again.");
         }
+    }
+    
+    @FXML
+    public void reset() {
+        System.out.println("Reset");
+        gameboard.resetPlayer();
         player_selected_row = player_selected_col = -1;
         drawOnCanvas(canvas.getGraphicsContext2D());
-        line_color = Color.WHITE;
     }
+
+    @FXML
+    public void selectNormalDifficulty() {
+        System.out.println("Selected Normal Difficulty");
+        initializeGame(9, 17); // Customize based desired difficulty settings
+    }
+
+    @FXML
+    public void selectMediumDifficulty() {
+        System.out.println("Selected Medium Difficulty");
+        initializeGame(9, 30); // Customize based desired difficulty settings
+    }
+
+    @FXML
+    public void selectHardDifficulty() {
+        System.out.println("Selected Hard Difficulty");
+        initializeGame(9, 50); // Customize based desired difficulty settings
+    }
+
+    private void initializeGame(int boardSize, int numberOfClues) {
+        gameboard = new GameBoard(boardSize, numberOfClues);
+        GraphicsContext context = canvas.getGraphicsContext2D();
+        drawOnCanvas(context);
+    }
+   
+    
     private void drawOnCanvas(GraphicsContext context) {
 
         int initial[][] = gameboard.getInitial();
@@ -104,6 +176,14 @@ public class Controller implements Initializable {
         }
     }
 
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+    
     public void canvasMouseClicked() {
         canvas.setOnMouseClicked(e->{
             int mouse_x = (int) e.getX();
@@ -112,13 +192,6 @@ public class Controller implements Initializable {
             player_selected_col = (int) (mouse_x / 50); // update player selected column
             drawOnCanvas(canvas.getGraphicsContext2D());
         });
-    }
-
-    public void reset() {
-        System.out.println("Reset");
-        gameboard.resetPlayer();
-        player_selected_row = player_selected_col = -1;
-        drawOnCanvas(canvas.getGraphicsContext2D());
     }
 
     public void buttonOnePressed() {
@@ -252,7 +325,7 @@ public class Controller implements Initializable {
             return true;
         }
 
-        public void newValues() {
+        public void newValues(int numberOfClues) {
             for (int row = 0; row < N; row++) {
                 for (int col = 0; col < N; col++) {
                     solution[row][col] = 0;
@@ -262,7 +335,7 @@ public class Controller implements Initializable {
             }
             fillDiagonal();
             fillRemaining(0, SRN);
-            removeKDigits();
+            removeKDigits(numberOfClues);
             resetPlayer();
         }
 
@@ -364,37 +437,30 @@ public class Controller implements Initializable {
 
         // Remove the K no. of digits to
         // complete game
-        public void removeKDigits() {
-            for (int row = 0; row < N; row++) {
-                for (int col = 0; col < N; col++) {
-                    initial[row][col] = solution[row][col];
-                }
+        public void removeKDigits(int numberOfClues) {
+            List<Integer> positions = new ArrayList<>();
+            for (int i = 0; i < N * N; i++) {
+                positions.add(i);
             }
-            int count = K;
-            while (count != 0) {
-                int cellId = randomGenerator(N * N) - 1;
-                int i = (cellId / N);
-                int j = cellId % N;
-                if (j != 0)
-                    j = j - 1;
-                Boolean can = (initial[i][j] != 0);
-                for (int k = 0, c1 = 0, c2 = 0; k < N; k++) {
-                    if (initial[i][k] == 0) c1++;
-                    if (initial[k][j] == 0) c2++;
-                    if (c1 >= 7 || c2 >= 7) {
-                        can = false;
-                    }
-                }
+            Collections.shuffle(positions);
 
-                if (can) {
-                    count--;
-                    initial[i][j] = 0;
-                } else if (initial[i][N - 1] != 0) {
-                    count--;
-                    initial[i][N - 1] = 0;
-                }
+            int cellsToKeep = N * N - numberOfClues;
+            for (int i = 0; i < cellsToKeep; i++) {
+                int pos = positions.get(i);
+                int row = pos / N;
+                int col = pos % N;
+                initial[row][col] = solution[row][col];
+            }
+
+            // Clear remaining cells
+            for (int i = cellsToKeep; i < N * N; i++) {
+                int pos = positions.get(i);
+                int row = pos / N;
+                int col = pos % N;
+                initial[row][col] = 0;
             }
         }
+    
 
     }
 }
