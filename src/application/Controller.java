@@ -129,6 +129,8 @@ public class Controller implements Initializable {
 
         int initial[][] = gameboard.getInitial();
         int[][] player = gameboard.getPlayer();
+        
+        
         context.clearRect(0, 0, 450, 450);
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
@@ -138,18 +140,37 @@ public class Controller implements Initializable {
                 if (initial[row][col] != 0) {
                     context.setFill(Color.rgb(175, 175, 175));
                 } else if (player[row][col] != 0) {
-                    context.setFill(Color.rgb(225, 225, 125));
+                    context.setFill(Color.rgb(205, 234, 249));
                 } else {
                     context.setFill(Color.rgb(225, 225, 225));
                 }
                 context.fillRoundRect(position_x, position_y, width, width, 10, 10);
             }
         }
+        
+        
 
-        context.setStroke(Color.rgb(193, 87, 87));
+        context.setStroke(Color.rgb(27, 158, 228));
         context.setLineWidth(3);
         if (player_selected_col > -1) {
             context.strokeRoundRect(player_selected_col * 50 + 2, player_selected_row * 50 + 2, 46, 46, 10, 10);
+        }
+        
+        context.setStroke(Color.GREY); // Color for grid lines and block separators
+        for (int i = 1; i < 3; i++) {
+            double separatorX = i * 150;
+            context.strokeLine(separatorX, 0, separatorX, 450); 
+            context.setLineWidth(5); 
+            context.strokeLine(separatorX, 0, separatorX, 450); 
+            context.setLineWidth(2); 
+        }
+        
+        for (int i = 1; i < 3; i++) {
+            double separatorY = i * 150;
+            context.strokeLine(0, separatorY, 450, separatorY); 
+            context.setLineWidth(5);
+            context.strokeLine(0, separatorY, 450, separatorY);
+            context.setLineWidth(2);
         }
 
         for(int row = 0; row<9; row++) {
@@ -186,8 +207,8 @@ public class Controller implements Initializable {
         canvas.setOnMouseClicked(e->{
             int mouse_x = (int) e.getX();
             int mouse_y = (int) e.getY();
-            player_selected_row = (int) (mouse_y / 50); // update player selected row
-            player_selected_col = (int) (mouse_x / 50); // update player selected column
+            player_selected_row = (int) (mouse_y / 50);
+            player_selected_col = (int) (mouse_x / 50);
             drawOnCanvas(canvas.getGraphicsContext2D());
         });
     }
