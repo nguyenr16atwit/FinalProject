@@ -114,17 +114,17 @@ public class Controller implements Initializable {
 	    }
 
 	    @FXML
-	    private void setDifficultyNormal(MouseEvent event) {
+	    private void setDifficultyNormal(ActionEvent event) {
 	        setDifficulty("Normal");
 	    }
 
 	    @FXML
-	    private void setDifficultyMedium(MouseEvent event) {
+	    private void setDifficultyMedium(ActionEvent event) {
 	        setDifficulty("Medium");
 	    }
 
 	    @FXML
-	    private void setDifficultyHard(MouseEvent event) {
+	    private void setDifficultyHard(ActionEvent event) {
 	        setDifficulty("Hard");
 	    }
 
