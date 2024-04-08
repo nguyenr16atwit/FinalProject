@@ -22,14 +22,14 @@
         <Button fx:id="check" layoutX="520.0" layoutY="200.0" mnemonicParsing="false" onAction="#check" prefHeight="40.0" prefWidth="59.0" text="Check" />
         <Button fx:id="newgame" layoutX="516.0" layoutY="62.0" mnemonicParsing="false" onAction="#newGame" prefHeight="40.0" prefWidth="187.0" text="New Game" />
 
-        <ToggleButton fx:id="Normal" layoutX="631.0" layoutY="135.0" mnemonicParsing="false" onMouseClicked="#setDifficultyNormal" prefHeight="27.0" prefWidth="73.0" styleClass="toggle_button" text="Normal">
+        <ToggleButton fx:id="Normal" layoutX="631.0" layoutY="135.0" mnemonicParsing="false" onAction="#setDifficultyNormal" onMouseClicked="#setDifficultyNormal" prefHeight="27.0" prefWidth="73.0" styleClass="toggle_button" text="Normal">
             <toggleGroup>
                 <ToggleGroup fx:id="difficultyToggleGroup" />
             </toggleGroup>
         </ToggleButton>
 
-        <ToggleButton fx:id="Medium" layoutX="631.0" layoutY="175.0" mnemonicParsing="false" onMouseClicked="#setDifficultyMedium" prefHeight="27.0" prefWidth="73.0" styleClass="toggle_button" text="Medium" toggleGroup="$difficultyToggleGroup" />
+        <ToggleButton fx:id="Medium" layoutX="631.0" layoutY="175.0" mnemonicParsing="false" onAction="#setDifficultyMedium" onMouseClicked="#setDifficultyMedium" prefHeight="27.0" prefWidth="73.0" styleClass="toggle_button" text="Medium" toggleGroup="$difficultyToggleGroup" />
 
-        <ToggleButton fx:id="Hard" layoutX="631.0" layoutY="213.0" mnemonicParsing="false" onMouseClicked="#setDifficultyHard" prefHeight="27.0" prefWidth="73.0" styleClass="toggle_button" text="Hard" toggleGroup="$difficultyToggleGroup" />
+        <ToggleButton fx:id="Hard" layoutX="631.0" layoutY="213.0" mnemonicParsing="false" onAction="#setDifficultyHard" onMouseClicked="#setDifficultyHard" prefHeight="27.0" prefWidth="73.0" styleClass="toggle_button" text="Hard" toggleGroup="$difficultyToggleGroup" />
     </children>
 </Pane>
